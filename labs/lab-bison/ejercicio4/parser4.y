@@ -14,7 +14,7 @@ void yyerror(const char *msg) { fprintf(stderr, "Error: %s\n", msg); }
 %%
 
 input:
-    /* vacío */
+    /* vacio */
   | input linea
   ;
 
@@ -23,19 +23,13 @@ input:
  * retorne con fallo y el resto de la entrada nunca se procesa.
  *
  * El token especial 'error' le permite a Bison intentar recuperarse:
- * descarta tokens hasta encontrar el símbolo de sincronización (acá '\n')
- * y continúa parseando la siguiente línea.
- * Llamar a yyerrok dentro de la acción resetea el estado de error interno.
- *
- * TODO 1 — Agregar en la producción 'linea' una regla de recuperación de errores.
- *   Cuando el parser encuentra tokens inválidos, descarta hasta el '\n'
- *   y retoma el parseo de la siguiente línea.
- *
- *   Agregá esta alternativa dentro de 'linea':
- *     | error '\n'  { yyerrok; printf("Error: sintaxis invalida\n"); }
+ * descarta tokens hasta encontrar el simbolo de sincronizacion (aca '\n')
+ * y continua parseando la siguiente linea.
+ * Llamar a yyerrok dentro de la accion resetea el estado de error interno.
  */
 linea:
     exp '\n'    { printf("= %d\n", $1); }
+  | error '\n'  { yyerrok; printf("Error: sintaxis invalida\n"); }
   ;
 
 exp:
